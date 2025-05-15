@@ -43,6 +43,14 @@ let posts: PostModel[] = [
     likeCount: 1000,
     commentCount: 1000,
   },
+  {
+    id: 4,
+    author: '허성욱메롱',
+    title: 'ㅎ호호호우우우',
+    content: '허성욱은 어어어',
+    likeCount: 1000,
+    commentCount: 1000,
+  },
 ];
 
 //자동으로 생성된다
