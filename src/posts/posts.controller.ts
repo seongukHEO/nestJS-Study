@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   NotFoundException,
   Param,
@@ -76,7 +77,7 @@ export class PostsController {
   //GET / posts/:id
   //  id에 해당하는 post를 가져온다
   @Get(':uid')
-  getPostById(@Param('uid') uid: String) {
+  getPostById(@Param('uid') uid: string) {
     const post = posts.find((post) => post.uid === +uid);
 
     if (!post) {
@@ -144,4 +145,16 @@ export class PostsController {
 
   //DELETE /posts/:id
   //  id에 해당하는 post를 삭제한다
+  @Delete(':uid')
+  deletPost(@Param('uid') uid: string) {
+    const post = posts.find((post) => post.uid === +uid);
+
+    if (!post) {
+      throw new NotFoundException();
+    }
+
+    posts = posts.filter((post) => post.uid !== +uid);
+
+    return posts;
+  }
 }
