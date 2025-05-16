@@ -5,6 +5,7 @@ import {
   NotFoundException,
   Param,
   Post,
+  Put,
 } from '@nestjs/common';
 import { PostsService } from './posts.service';
 
@@ -106,8 +107,40 @@ export class PostsController {
 
     return post;
   }
+
   //PUT /posts/:id
   //  id에 해당되는 post를 변경한다
+  @Put(':uid')
+  putPost(
+    @Param('uid') uid: string,
+    @Body('author') author?: string,
+    @Body('title') title?: string,
+    @Body('content') content?: string,
+  ) {
+    const currentPost = posts.find((post) => post.uid === +uid);
+
+    if (!currentPost) {
+      throw new NotFoundException();
+    }
+
+    if (author) {
+      currentPost.author = author;
+    }
+
+    if (title) {
+      currentPost.title = title;
+    }
+
+    if (content) {
+      currentPost.content = content;
+    }
+
+    posts = posts.map((prevPost) =>
+      prevPost.uid === +uid ? currentPost : prevPost,
+    );
+
+    return currentPost;
+  }
 
   //DELETE /posts/:id
   //  id에 해당하는 post를 삭제한다
