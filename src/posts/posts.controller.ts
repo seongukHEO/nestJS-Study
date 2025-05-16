@@ -88,7 +88,7 @@ export class PostsController {
   //POST / posts
   //  Post를 생성한다
   @Post()
-  postPosts(
+  postPost(
     @Body('author') author: string,
     @Body('title') title: string,
     @Body('content') content: string,
@@ -102,14 +102,12 @@ export class PostsController {
       commentCount: 0,
     };
 
-    //기존 posts에서 맨 끝에 추가를 해준다
     posts = [...posts, post];
 
     return post;
   }
-
   //PUT /posts/:id
-  //  id에 해단되는 post를 변경한다
+  //  id에 해당되는 post를 변경한다
 
   //DELETE /posts/:id
   //  id에 해당하는 post를 삭제한다
