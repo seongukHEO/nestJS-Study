@@ -1,4 +1,4 @@
-import { Controller, Get, Param } from '@nestjs/common';
+import { Controller, Get, NotFoundException, Param } from '@nestjs/common';
 import { PostsService } from './posts.service';
 
 /**
@@ -10,7 +10,7 @@ import { PostsService } from './posts.service';
  */
 
 interface PostModel {
-  id: number;
+  uid: number;
   author: string;
   title: string;
   content: string;
@@ -20,7 +20,7 @@ interface PostModel {
 
 let posts: PostModel[] = [
   {
-    id: 1,
+    uid: 1,
     author: '허성욱',
     title: 'ㅎ호호호',
     content: '허성욱은 바보',
@@ -28,7 +28,7 @@ let posts: PostModel[] = [
     commentCount: 1000,
   },
   {
-    id: 2,
+    uid: 2,
     author: '허성욱우우우',
     title: 'ㅎ호호ㅇㅇㅇㅇ호',
     content: '허성욱ㅇㅇㅇ은 바보',
@@ -36,7 +36,7 @@ let posts: PostModel[] = [
     commentCount: 1000,
   },
   {
-    id: 3,
+    uid: 3,
     author: '허성욱메롱',
     title: 'ㅎ호호호우우우',
     content: '허성욱은 어어어',
@@ -44,7 +44,7 @@ let posts: PostModel[] = [
     commentCount: 1000,
   },
   {
-    id: 4,
+    uid: 4,
     author: '허성욱메롱',
     title: 'ㅎ호호호우우우',
     content: '허성욱은 어어어',
@@ -67,9 +67,15 @@ export class PostsController {
 
   //GET / posts/:id
   //  id에 해당하는 post를 가져온다
-  @Get(':id')
-  getPostById(@Param('id') id: String) {
-    return posts.find((post) => post.id === +id);
+  @Get(':uid')
+  getPostById(@Param('uid') uid: String) {
+    const post = posts.find((post) => post.uid === +uid);
+
+    if (!post) {
+      throw new NotFoundException();
+    }
+
+    return post;
   }
 
   //POST / posts
