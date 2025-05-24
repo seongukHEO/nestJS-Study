@@ -137,15 +137,20 @@ export class PostsService {
     return newPost;
   }
 
-  deletePost(uid: number) {
-    const post = posts.find((post) => post.uid === +uid);
+  //오 인강 안보고 성공ㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋ
+  async deletePost(uid: number) {
+    const post = await this.postsRepository.findOne({
+      where: {
+        uid: uid,
+      },
+    });
 
     if (!post) {
       throw new NotFoundException();
     }
 
-    posts = posts.filter((post) => post.uid !== +uid);
+    const newPost = await this.postsRepository.delete(post);
 
-    return posts;
+    return newPost;
   }
 }
