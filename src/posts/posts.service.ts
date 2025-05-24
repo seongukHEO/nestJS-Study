@@ -11,14 +11,14 @@ import { PostModel } from './entities/post.entity';
  * commentCount : number
  */
 
-export interface PostModel {
-  uid: number;
-  author: string;
-  title: string;
-  content: string;
-  likeCount: number;
-  commentCount: number;
-}
+// export interface PostModel {
+//   uid: number;
+//   author: string;
+//   title: string;
+//   content: string;
+//   likeCount: number;
+//   commentCount: number;
+// }
 
 // eslint-disable-next-line prefer-const
 let posts: PostModel[] = [
@@ -63,8 +63,8 @@ export class PostsService {
     private readonly postsRepository: Repository<PostModel>,
   ) {}
 
-  getAllPosts() {
-    return posts;
+  async getAllPosts() {
+    return this.postsRepository.find();
   }
 
   getPostByUid(uid: number) {
