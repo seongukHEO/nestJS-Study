@@ -48,7 +48,7 @@ export class PostsController {
     @Body('title') title?: string,
     @Body('content') content?: string,
   ) {
-    return this.postsService.putPost(+uid, author, title, content);
+    return this.postsService.putPost(+uid, author!, title!, content!);
   }
 
   //DELETE /posts/:id
