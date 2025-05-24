@@ -100,30 +100,41 @@ export class PostsService {
     return newPost;
   }
 
-  putPost(uid: number, author: string, title: string, content: string) {
-    const currentPost = posts.find((post) => post.uid === +uid);
+  async putPost(
+    uid: number,
+    author?: string,
+    title?: string,
+    content?: string,
+  ) {
+    //save의 기능
+    // 1, 만약 데이터가 존재하지 않는다면 (uid 기준) 새로 생성한다
+    // 2, 만약 데이터가 존재한다면 존재하던 값을 업데이트 한다
 
-    if (!currentPost) {
+    const post = await this.postsRepository.findOne({
+      where: {
+        uid: uid,
+      },
+    });
+
+    if (!post) {
       throw new NotFoundException();
     }
 
     if (author) {
-      currentPost.author = author;
-    }
-
-    if (title) {
-      currentPost.title = title;
+      post.author = author;
     }
 
     if (content) {
-      currentPost.content = content;
+      post.content = content;
     }
 
-    posts = posts.map((prevPost) =>
-      prevPost.uid === +uid ? currentPost : prevPost,
-    );
+    if (title) {
+      post.title = title;
+    }
 
-    return currentPost;
+    const newPost = await this.postsRepository.save(post);
+
+    return newPost;
   }
 
   deletePost(uid: number) {
