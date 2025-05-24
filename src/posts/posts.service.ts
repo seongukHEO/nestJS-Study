@@ -81,19 +81,23 @@ export class PostsService {
     return post;
   }
 
-  createPost(author: string, title: string, content: string) {
-    const post = {
-      uid: posts[posts.length - 1].uid + 1,
+  async createPost(author: string, title: string, content: string) {
+    // 1, create -> 저장할 객체를 생성한다
+    // 2, save -> 객체를 저장한다. (create 메서드에서 생성한 객체로 저장한다)
+
+    //여기 post는 uid가 없다 왜냐면 DB에서 올려주기 때문
+    const post = this.postsRepository.create({
       author,
       title,
       content,
       likeCount: 0,
       commentCount: 0,
-    };
+    });
 
-    posts = [...posts, post];
+    //여기 newPost에는 uid가 존재한다
+    const newPost = await this.postsRepository.save(post);
 
-    return post;
+    return newPost;
   }
 
   putPost(uid: number, author: string, title: string, content: string) {
